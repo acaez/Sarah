@@ -1,0 +1,27 @@
+/* ========== LAYOUT STRUCTURE ========== */    
+
+#messages {
+    grid-column: 2;
+    grid-row: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 30px 0 10px;
+    scrollbar-width: none;
+    z-index: var(--z-messages);
+}
+
+#messages::-webkit-scrollbar {
+    display: none;
+}
+
+#input-area {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--spacing-sm);
+    padding: 16px 0 32px;
+    z-index: var(--z-input);
+}

@@ -1,0 +1,30 @@
+/* ========== BUTTONS COMPONENT ========== */
+
+#send {
+    background: rgba(239, 226, 226, 0.1);
+    border: 1.5px solid rgba(225, 201, 201, 0.864);
+    color: #b0b0b0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgb(167, 162, 162);
+}
+
+#send:hover {
+    background: rgba(251, 249, 249, 0.2);
+    border-color: rgba(180, 180, 180, 0.8);
+    box-shadow: 0 0 20px rgb(205, 195, 195);
+    transform: scale(1.05);
+}
+
+#send:active {
+    transform: scale(0.95);
+}

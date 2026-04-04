@@ -1,0 +1,10 @@
+/* ========= BACKGROUND ========== */
+body {
+    background: linear-gradient(135deg,
+        #5a7aa5 0%,
+        #7a8aa5 20%,
+        #9a9aa0 40%,
+        #b5a595 60%,
+        #c59580 80%,
+        #d5a07a 100%);
+}

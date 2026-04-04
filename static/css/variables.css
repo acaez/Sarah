@@ -1,0 +1,57 @@
+/* ========== VARIABLES CSS ========== */
+
+:root {
+    /* Couleurs principales */
+    --color-text-primary: #c0c0c0;
+    --color-text-secondary: #d0d0d0;
+    --color-text-placeholder: rgba(120, 120, 120, 0.3);
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-border-focus: rgba(255, 255, 255, 0.3);
+    --glass-blur: blur(20px);
+    --glass-saturation: saturate(180%);
+
+    /* Ombres */
+    --shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.15);
+    --shadow-inset-light: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    --shadow-inset-bright: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    --shadow-glow-blue: 0 0 0 1px rgba(100, 150, 255, 0.1);
+    --shadow-glow-blue-focus: 0 0 0 1px rgba(100, 150, 255, 0.3);
+    --shadow-glow-aura: 0 0 20px rgba(100, 150, 255, 0.2);
+
+    /* Espacements */
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+
+    /* Border radius */
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 18px;
+    --radius-full: 50%;
+
+    /* Tailles de police */
+    --font-size-base: 0.95rem;
+    --font-size-sm: 0.875rem;
+    --line-height-base: 1.6;
+
+    /* Transitions */
+    --transition-fast: 0.2s;
+    --transition-base: 0.3s;
+    --transition-slow: 0.5s;
+
+    /* Z-index */
+    --z-background: -1;
+    --z-base: 0;
+    --z-messages: 1;
+    --z-input: 2;
+    --z-modal: 100;
+
+    /* Layout */
+    --messages-max-width: 700px;
+}
