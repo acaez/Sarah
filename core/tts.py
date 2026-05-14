@@ -8,8 +8,8 @@ import onnxruntime as rt
 from kokoro_onnx.config import SAMPLE_RATE, MAX_PHONEME_LENGTH
 from kokoro_onnx.tokenizer import Tokenizer
 
-MODEL_PATH  = Path(__file__).parent / "tts-models" / "model.onnx"
-VOICES_PATH = Path(__file__).parent / "tts-models" / "voices.npz"
+MODEL_PATH  = Path(__file__).parent.parent / "tts-models" / "model.onnx"
+VOICES_PATH = Path(__file__).parent.parent / "tts-models" / "voices.npz"
 VOICE = "ff_siwis"
 LANG  = "fr-fr"
 SPEED = 1.0

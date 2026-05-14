@@ -2,11 +2,11 @@ from flask import Flask, render_template, request, jsonify, Response
 from ollama import chat
 
 from config import CHAT_MODEL, FLASK_PORT, FLASK_DEBUG, SYSTEM_PROMPT
-from memory import Memory
-from conv import Conversation
-from tts import synthesize
+from core.memory import Memory
+from core.conv import Conversation
+from core.tts import synthesize
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="frontend/templates", static_folder="frontend/static")
 
 memory = Memory()
 conversation = Conversation()
