@@ -1,5 +1,68 @@
 /* ========== BUTTONS COMPONENT ========== */
 
+#mic {
+    background: rgba(239, 226, 226, 0.1);
+    border: 1.5px solid rgba(225, 201, 201, 0.864);
+    color: #b0b0b0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgb(167, 162, 162);
+    position: relative;
+}
+
+#mic svg {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+#mic-waves {
+    display: none;
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-full);
+}
+
+#mic.listening {
+    border-color: rgba(200, 160, 160, 0.9);
+    box-shadow: 0 0 20px rgba(200, 120, 120, 0.4);
+    color: #e0a0a0;
+}
+
+#mic.listening #mic-waves {
+    display: block;
+}
+
+#mic.listening #mic-waves span {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-full);
+    border: 1.5px solid rgba(200, 120, 120, 0.5);
+    animation: micPulse 1.8s ease-out infinite;
+}
+
+#mic.listening #mic-waves span:nth-child(2) { animation-delay: 0.6s; }
+#mic.listening #mic-waves span:nth-child(3) { animation-delay: 1.2s; }
+
+#mic:hover {
+    background: rgba(251, 249, 249, 0.2);
+    border-color: rgba(180, 180, 180, 0.8);
+    box-shadow: 0 0 20px rgb(205, 195, 195);
+    transform: scale(1.05);
+}
+
+#mic:active {
+    transform: scale(0.95);
+}
+
 #send {
     background: rgba(239, 226, 226, 0.1);
     border: 1.5px solid rgba(225, 201, 201, 0.864);

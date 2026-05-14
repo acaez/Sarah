@@ -4,56 +4,287 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarah</title>
-    <link rel="stylesheet" href="/static/css/import.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: radial-gradient(ellipse at 50% 46%, #12100d 0%, #080705 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* ── Anneau extérieur ───────────────────────────────────────────── */
+        #ring {
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            border: 1px solid rgba(200, 148, 98, 0);
+            transition: border-color 0.7s ease, transform 0.7s ease, opacity 0.7s ease;
+            transform: scale(0.88);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.listening  #ring { border-color: rgba(200, 148, 98, 0.22); transform: scale(1);   opacity: 1; }
+        body.speaking   #ring { border-color: rgba(200, 148, 98, 0.14); transform: scale(1);   opacity: 1; }
+
+        /* Deuxième anneau, plus large et plus flou */
+        #ring2 {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 1px solid rgba(200, 148, 98, 0);
+            transition: border-color 0.9s ease, transform 0.9s ease, opacity 0.9s ease;
+            transform: scale(0.82);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.listening  #ring2 { border-color: rgba(200, 148, 98, 0.08); transform: scale(1); opacity: 1; }
+
+        /* ── Orbe ───────────────────────────────────────────────────────── */
+        #presence {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        #orb {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 30% 26%, rgba(255, 249, 236, 0.86) 0%, transparent 40%),
+                radial-gradient(circle at 68% 72%, rgba(48, 14, 4, 0.72)     0%, transparent 44%),
+                radial-gradient(ellipse at 50% 50%, #c48c62 0%, #7a3a1c 100%);
+            box-shadow:
+                inset 0 -14px 36px rgba(0, 0, 0, 0.32),
+                inset 0  6px 18px rgba(255, 234, 195, 0.10),
+                0 0  36px rgba(196, 140,  98, 0.13),
+                0 0  72px rgba(196, 140,  98, 0.08),
+                0 0 120px rgba(122,  58,  28, 0.05);
+            will-change: transform, box-shadow, border-radius;
+        }
+
+        /* Idle — respiration organique */
+        body.idle #orb {
+            animation: breathe 6s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%   { transform: scale(1);     border-radius: 50%; }
+            20%  { transform: scale(1.018); border-radius: 51% 49% 50% 50%; }
+            45%  { transform: scale(1.03);  border-radius: 50% 50% 51% 49%;
+                   box-shadow: inset 0 -14px 36px rgba(0,0,0,.32), inset 0 6px 18px rgba(255,234,195,.1),
+                               0 0 52px rgba(196,140,98,.2), 0 0 96px rgba(196,140,98,.12), 0 0 160px rgba(122,58,28,.08); }
+            70%  { transform: scale(1.016); border-radius: 49% 51% 50% 50%; }
+            100% { transform: scale(1);     border-radius: 50%; }
+        }
+
+        /* Écoute */
+        body.listening #orb {
+            animation: listen 1.15s ease-in-out infinite;
+        }
+
+        @keyframes listen {
+            0%, 100% {
+                transform: scale(1.01);
+                box-shadow: inset 0 -14px 36px rgba(0,0,0,.3), inset 0 6px 18px rgba(255,234,195,.1),
+                            0 0 64px rgba(196,140,98,.32), 0 0 128px rgba(196,140,98,.18), 0 0 200px rgba(122,58,28,.12);
+            }
+            50% {
+                transform: scale(1.06);
+                box-shadow: inset 0 -14px 36px rgba(0,0,0,.28), inset 0 8px 22px rgba(255,234,195,.14),
+                            0 0 88px rgba(196,140,98,.48), 0 0 160px rgba(196,140,98,.26), 0 0 240px rgba(122,58,28,.16);
+            }
+        }
+
+        /* Réflexion */
+        body.thinking #orb {
+            animation: think 3.4s ease-in-out infinite;
+        }
+
+        @keyframes think {
+            0%   { transform: scale(1);     filter: brightness(1)    saturate(1); }
+            30%  { transform: scale(0.976); filter: brightness(1.09) saturate(1.08); }
+            62%  { transform: scale(1.012); filter: brightness(0.93) saturate(0.95); }
+            100% { transform: scale(1);     filter: brightness(1)    saturate(1); }
+        }
+
+        /* Parole — morphing + glow */
+        body.speaking #orb {
+            animation: speak 0.54s ease-in-out infinite alternate;
+        }
+
+        @keyframes speak {
+            from {
+                transform: scale(1);
+                border-radius: 50%;
+                box-shadow: inset 0 -14px 36px rgba(0,0,0,.32), inset 0 6px 18px rgba(255,234,195,.1),
+                            0 0 48px rgba(196,140,98,.22), 0 0 96px rgba(196,140,98,.12);
+            }
+            to {
+                transform: scale(1.076);
+                border-radius: 48% 52% 51% 49% / 50% 49% 51% 50%;
+                box-shadow: inset 0 -14px 36px rgba(0,0,0,.26), inset 0 8px 22px rgba(255,234,195,.15),
+                            0 0 96px rgba(196,140,98,.52), 0 0 180px rgba(196,140,98,.28), 0 0 260px rgba(122,58,28,.18);
+            }
+        }
+
+        /* ── Hint ───────────────────────────────────────────────────────── */
+        #hint {
+            position: fixed;
+            bottom: 42px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 9.5px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.07);
+            user-select: none;
+            transition: color 0.5s;
+        }
+
+        body.listening #hint { color: rgba(200, 148, 98, 0.22); }
+    </style>
 </head>
-<body>
-    <div id="messages"></div>
-    <div id="input-area">
-        <textarea id="input" placeholder="..." rows="1"></textarea>
-        <button id="send">↑</button>
+<body class="idle">
+    <div id="ring2"></div>
+    <div id="ring"></div>
+
+    <div id="presence">
+        <div id="orb"></div>
     </div>
 
+    <span id="hint">espace — parler</span>
+
     <script>
-        const messagesEl = document.getElementById("messages");
-        const input = document.getElementById("input");
-        const send = document.getElementById("send");
+        function setState(s) { document.body.className = s; }
 
-        function addMessage(content, role) {
-            const div = document.createElement("div");
-            div.classList.add("message", role);
-            div.textContent = content;
-            messagesEl.appendChild(div);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
+        // ── TTS ──────────────────────────────────────────────────────────
+        let currentAudio = null;
+
+        async function speak(text) {
+            if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+            setState("speaking");
+            try {
+                const res = await fetch("/tts", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text })
+                });
+                if (!res.ok) { setState("idle"); return; }
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                currentAudio = new Audio(url);
+                currentAudio.onended = () => { setState("idle"); URL.revokeObjectURL(url); currentAudio = null; };
+                currentAudio.onerror = () => { setState("idle"); currentAudio = null; };
+                currentAudio.play();
+            } catch (_) { setState("idle"); }
         }
 
-        async function sendMessage() {
-            const text = input.value.trim();
-            if (!text) return;
-            input.value = "";
-            input.style.height = "auto";
-            addMessage(text, "user");
-
-            const res = await fetch("/chat", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({message: text})
-            });
-            const data = await res.json();
-            addMessage(data.response, "sarah");
+        // ── Chat ─────────────────────────────────────────────────────────
+        async function sendMessage(text) {
+            setState("thinking");
+            try {
+                const res = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await res.json();
+                if (data.response) await speak(data.response);
+                else setState("idle");
+            } catch (_) { setState("idle"); }
         }
 
-        send.addEventListener("click", sendMessage);
-        input.addEventListener("keydown", e => {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
+        // ── STT ──────────────────────────────────────────────────────────
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SR) {
+            document.getElementById("hint").textContent = "microphone non disponible";
+        } else {
+            const rec = new SR();
+            rec.lang = "fr-FR";
+            rec.interimResults = true;   // capture le texte au fil de la parole
+            rec.continuous = false;
+
+            let listening = false;
+            let accFinals = "";          // résultats finaux accumulés (au cas où la reco redémarre)
+            let lastTranscript = "";     // dernière version complète (finals + interim)
+
+            function startListening() {
+                if (listening) return;
+                if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+                accFinals = "";
+                lastTranscript = "";
+                listening = true;
+                setState("listening");
+                rec.start();
             }
-        });
 
-        input.addEventListener("input", () => {
-            input.style.height = "auto";
-            input.style.height = input.scrollHeight + "px";
-        });
+            function stopListening() {
+                if (!listening) return;
+                listening = false;          // avant rec.stop() pour que onend ne relance pas
+                rec.stop();
+                const t = lastTranscript;
+                accFinals = "";
+                lastTranscript = "";
+                if (t) sendMessage(t);
+                else setState("idle");
+            }
+
+            // Clic sur l'orbe
+            document.getElementById("presence").addEventListener("click", () => {
+                if (listening) stopListening();
+                else startListening();
+            });
+
+            // Espace push-to-talk
+            document.addEventListener("keydown", e => {
+                if (e.code === "Space" && e.target === document.body && !e.repeat) {
+                    e.preventDefault();
+                    startListening();
+                }
+            });
+            document.addEventListener("keyup", e => {
+                if (e.code === "Space") {
+                    e.preventDefault();
+                    stopListening();
+                }
+            });
+
+            rec.onresult = e => {
+                // Accumule les finals + garde l'interim courant
+                let interim = "";
+                for (let i = e.resultIndex; i < e.results.length; i++) {
+                    if (e.results[i].isFinal) accFinals += e.results[i][0].transcript;
+                    else interim += e.results[i][0].transcript;
+                }
+                lastTranscript = (accFinals + interim).trim();
+            };
+
+            rec.onend = () => {
+                // Si l'utilisateur tient encore la touche, on relance
+                if (listening) {
+                    try { rec.start(); } catch (_) { listening = false; setState("idle"); }
+                }
+            };
+
+            rec.onerror = e => {
+                if (e.error !== "aborted") console.warn("STT:", e.error);
+                listening = false;
+                if (document.body.className === "listening") setState("idle");
+            };
+        }
     </script>
 </body>
 </html>

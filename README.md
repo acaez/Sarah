@@ -19,14 +19,24 @@ ollama pull mistral-nemo
 ollama pull qwen3-embedding:4b
 ```
 
-### 3. Créer le venv
+### 3. Installer Python 3.11
 ```bash
-python3.11 -m venv venv
-source venv/bin/activate
-pip install mem0ai chromadb flask ollama
+brew install python@3.11
 ```
 
-### 4. Lancer Sarah
+### 4. Créer le venv
+```bash
+cd ..  # dans Sarah/
+python3.11 -m venv venv
+source venv/bin/activate
+pip install flask ollama chromadb kokoro-onnx
+```
+
+### 5. Télécharger les modèles TTS
+Lance Sarah une première fois — les fichiers sont déjà dans `app/tts-models/`.
+Sur un nouveau Mac, il faudra les re-télécharger depuis HuggingFace ou les copier manuellement.
+
+### 6. Lancer Sarah
 ```bash
 cd app
 python3 app.py
